@@ -28,24 +28,29 @@ def show_event(event: tuple[str, str], index: int = -1) -> None:
     )
 
 
+def print_events(
+    amount: int,
+    event_generator: typing.Generator[tuple[str, str], None, None]
+) -> None:
+    for i in range(0, amount):
+        show_event(next(event_generator), i)
+
+
 def generate_events(
     amount: int,
     event_generator: typing.Generator[tuple[str, str], None, None],
-    is_show: bool = False
 ) -> list[tuple[str, str]]:
     event_list: list[tuple[str, str]] = []
-    for i in range(0, amount):
+    for _ in range(amount):
         event: tuple[str, str] = next(event_generator)
         event_list.append(event)
-        if is_show:
-            show_event(event, i)
     return event_list
 
 
 def delete_events(
     event_list: list[tuple[str, str]],
     event_generator: typing.Generator[tuple[str, str], None, None],
-    is_show: bool = False
+    is_show: bool = True
 ) -> list[tuple[str, str]]:
     for event in event_generator:
         if is_show:
@@ -91,7 +96,7 @@ if __name__ == "__main__":
         tuple[str, str], None, None
     ] = gen_event(all_players, all_actions)
 
-    generate_events(1000, event_generator, True)
+    print_events(1000, event_generator)
 
     event_list: list[tuple[str, str]] = generate_events(10, event_generator)
     print(f"Built list of 10 events: {event_list}")
@@ -100,4 +105,4 @@ if __name__ == "__main__":
         tuple[str, str], None, None
     ] = consume_event(event_list)
 
-    event_list = delete_events(event_list, event_consumer, True)
+    event_list = delete_events(event_list, event_consumer)
