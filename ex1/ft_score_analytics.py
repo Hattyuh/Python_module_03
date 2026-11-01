@@ -46,7 +46,7 @@ def show_scoreboard(sc: Scoreboard, scores: list[int]) -> None:
     print_row(sc, "Total score:")
     print_row(sc, score=sum(scores), is_score=True)
     print_row(sc, "")
-    print_row(sc, "Avarage score:")
+    print_row(sc, "Average score:")
     print_row(sc, score=(sum(scores) / len(scores)), is_score=True)
     print_row(sc, "")
     print_row(sc, "High score:")
