@@ -2,8 +2,7 @@ import math
 
 
 def get_player_pos() -> tuple[float, float, float]:
-    is_valid: bool = False
-    while not is_valid:
+    while True:
         values: list[str] = input(
             "Enter new coordinates as floats in format 'x,y,z':"
         ).split(",")
@@ -14,13 +13,12 @@ def get_player_pos() -> tuple[float, float, float]:
                 numbers: list[float] = []
                 for value in values:
                     numbers.append(float(value))
-                is_valid = True
+                coordinates: tuple[float, float, float] = (
+                    numbers[0], numbers[1], numbers[2]
+                )
+                return coordinates
             except ValueError as error:
                 print(f"Error on parameter '{value}': {error}")
-    coordinates: tuple[float, float, float] = (
-        float(values[0]), float(values[1]), float(values[2])
-    )
-    return coordinates
 
 
 def calculate_distance(
@@ -35,8 +33,8 @@ def calculate_distance(
 
 
 def ft_coordinate_system() -> None:
-    first_coordinates: tuple[float, float, float] = get_player_pos()
     print("Get a first set of coordinates")
+    first_coordinates: tuple[float, float, float] = get_player_pos()
     print(f"Got a first tuple: {first_coordinates}")
     print(
         "It includes: "
