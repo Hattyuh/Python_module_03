@@ -10,12 +10,11 @@ def showf_args() -> None:
             if arg_count < 2:
                 print("No arguments provided!")
             else:
-                print(f"Arguments recieved: {arg_count - 1}")
+                print(f"Arguments received: {arg_count - 1}")
         else:
             print(f"Argument {i}: {arg}")
         i += 1
     print(f"Total arguments: {arg_count}")
-    print()
 
 
 if __name__ == "__main__":
