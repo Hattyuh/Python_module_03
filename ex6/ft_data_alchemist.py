@@ -3,7 +3,7 @@ import random
 
 if __name__ == "__main__":
     player_names: list[str] = [
-        "Anna", "bob", "Joe", "Lue", "sarah", "4victor"
+        "Anna", "bob", "Joe", "Lue", "sarah", "victor"
     ]
     print("=== Game Data Alchemist ===")
     print()
