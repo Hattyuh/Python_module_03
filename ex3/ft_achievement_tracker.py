@@ -2,9 +2,21 @@ import random
 
 
 class Player:
+    possible_achievements: list[str] = [
+        "1 Duck catcher",
+        "2 Hobbit finder",
+        "3 Soul eater",
+        "4 Lucky chuck",
+        "5 Family friendly",
+        "6 Famous musician",
+        "7 Curious granny"
+    ]
+
     def __init__(self, name: str) -> None:
         self.name = name
-        self.achievements: set[str] = gen_player_achievements(all_achievements)
+        self.achievements: set[str] = gen_player_achievements(
+            Player.possible_achievements
+        )
         self.show()
 
     def show(self) -> None:
@@ -22,18 +34,17 @@ def gen_player_achievements(achievements: list[str]) -> set[str]:
 def create_data(
         mode: str,
         players: list[Player],
-        all_achievements: list[str],
         main_player: int = 0
 ) -> set[str]:
     data: list[set[str]] = []
     if mode == "missing":
-        data.append(set(all_achievements))
+        data.append(set(Player.possible_achievements))
         data.append(players[main_player].achievements)
         return set.difference(*data)
     data.append(players[main_player].achievements)
-    for index, player in enumerate(players):
-        if index != main_player:
-            data.append(player.achievements)
+    for i in range(len(players)):
+        if i != main_player:
+            data.append(players[i].achievements)
     if mode == "distinct":
         return set.union(*data)
     elif mode == "common":
@@ -45,16 +56,7 @@ def create_data(
 
 
 if __name__ == "__main__":
-    print("== Achievement tracker system ==\n")
-    all_achievements: list[str] = [
-        "1 Duck catcher",
-        "2 Hobbit finder",
-        "3 Soul eater",
-        "4 Lucky chuck",
-        "5 Family friendly",
-        "6 Famous musician",
-        "7 Curious granny"
-    ]
+    print("=== Achievement tracker system ===\n")
     all_players: list[Player] = [
         Player("Anna"),
         Player("Bob"),
@@ -64,22 +66,22 @@ if __name__ == "__main__":
     print()
     print(
         "All distinct achievements: "
-        f"{create_data("distinct", all_players, all_achievements)}"
+        f"{create_data("distinct", all_players)}"
     )
     print()
     print(
         "Common achievements: "
-        f"{create_data("common", all_players, all_achievements)}"
+        f"{create_data("common", all_players)}"
     )
     print()
-    for index, player in enumerate(all_players):
+    for i in range(len(all_players)):
         print(
-            f"Only {player.name} has: "
-            f"{create_data("only", all_players, all_achievements, index)}"
+            f"Only {all_players[i].name} has: "
+            f"{create_data("only", all_players, i)}"
         )
     print()
-    for index, player in enumerate(all_players):
+    for i in range(len(all_players)):
         print(
-            f"{player.name} is missing: "
-            f"{create_data("missing", all_players, all_achievements, index)}"
+            f"{all_players[i].name} is missing: "
+            f"{create_data("missing", all_players, i)}"
         )
