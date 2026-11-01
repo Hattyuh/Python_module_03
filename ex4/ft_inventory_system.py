@@ -9,14 +9,12 @@ class Inventory:
         print(self.items)
 
     def show_item_list(self) -> None:
-        item_list: list[str] = list(self.items.keys())
-        print(f"Item list: {item_list}")
+        print(f"Item list: {list(self.items.keys())}")
 
     def show_item_quantity(self) -> None:
-        quantity_list: list[int] = list(self.items.values())
         print(
-            f"Total quantity of the {len(quantity_list)} "
-            f"items: {sum(quantity_list)}"
+            f"Total quantity of the {len(self.items.values())} "
+            f"items: {sum(self.items.values())}"
         )
 
     def show_percantages(self) -> None:
@@ -62,21 +60,26 @@ class Inventory:
                 min_value = self.items[item]
                 least_abundant_item = item
         print(
-            f"Item most abundant: {least_abundant_item} "
+            f"Item least abundant: {least_abundant_item} "
             f"with quantity {self.items[least_abundant_item]}"
         )
 
     def add_item(self, item_name: str, quantity: int) -> None:
         if item_name in self.items:
             print(f"Redundant item '{item_name}' - discarding")
+        elif not item_name:
+            print("Item name can't be empty - discarding")
         else:
+            if quantity <= 0:
+                raise ValueError("Should be grater than zero")
             self.items.update({item_name: quantity})
 
 
-def parse_input(arguments: list[str]) -> None:
-    for index, arg in enumerate(arguments):
-        if index > 0:
-            item = arg.split(":")
+def parse_input(args: list[str]) -> Inventory:
+    my_inventory = Inventory()
+    for i in range(len(args)):
+        if i > 0:
+            item: list[str] = args[i].split(":")
             try:
                 if len(item) != 2:
                     raise IndexError
@@ -85,6 +88,7 @@ def parse_input(arguments: list[str]) -> None:
                 print(f"Quantity error for '{item[0]}': {error}")
             except IndexError:
                 print(f"Error - invalid parameter '{item[0]}'")
+    return my_inventory
 
 
 def test_inventory(i: Inventory) -> None:
@@ -98,12 +102,12 @@ def test_inventory(i: Inventory) -> None:
 
 if __name__ == "__main__":
     print("=== Inventory System Analysis ===")
-    my_inventory = Inventory()
+    empty_inventory = Inventory()
     print("Empty Inventory Check ->")
-    test_inventory(my_inventory)
+    test_inventory(empty_inventory)
     print()
     print("Parsing input ->")
-    parse_input(sys.argv)
+    my_inventory: Inventory = parse_input(sys.argv)
     print()
     print("Inventory Check ->")
     print("Got inventory: ", end="")
