@@ -17,21 +17,19 @@ def print_scoreboard_edge(sc: Scoreboard) -> None:
 def print_row(
         sc: Scoreboard,
         text: str = "",
-        score: int = 0,
+        score: int | float = 0,
         is_score: bool = False
 ) -> None:
     if is_score:
-        print(
-            f"{'***':<{sc.edge_size}}"
-            f"{f'{score}':<{sc.inner_size}}"
-            f"{'***':>{sc.edge_size}}"
-        )
-    else:
-        print(
-            f"{'***':<{sc.edge_size}}"
-            f"{f'{text}':<{sc.inner_size}}"
-            f"{'***':>{sc.edge_size}}"
-        )
+        if score % 1 == 0:
+            text = f"{score:.0f}"
+        else:
+            text = f"{score:.2f}"
+    print(
+        f"{'***':<{sc.edge_size}}"
+        f"{text:<{sc.inner_size}}"
+        f"{'***':>{sc.edge_size}}"
+    )
 
 
 def show_scoreboard(sc: Scoreboard, scores: list[int]) -> None:
@@ -49,7 +47,7 @@ def show_scoreboard(sc: Scoreboard, scores: list[int]) -> None:
     print_row(sc, score=sum(scores), is_score=True)
     print_row(sc, "")
     print_row(sc, "Avarage score:")
-    print_row(sc, score=int(sum(scores) / len(scores)), is_score=True)
+    print_row(sc, score=(sum(scores) / len(scores)), is_score=True)
     print_row(sc, "")
     print_row(sc, "High score:")
     print_row(sc, score=max(scores), is_score=True)
